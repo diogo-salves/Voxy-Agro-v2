@@ -1,0 +1,18 @@
+# Dependências atualizadas para Python 3.11 (Janeiro 2024)
+# Versões fixas para garantir estabilidade e segurança
+
+fastapi>=0.104.1
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+reportlab>=4.0.7
+matplotlib>=3.8.2
+PyPDF2>=3.0.1
+fonttools>=4.47.0
+Pillow>=10.1.0
+
+# Rate limiting e proteção contra ataques
+slowapi>=0.1.9
+
+# Monitoramento de recursos
+psutil>=5.9.6
+

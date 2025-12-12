@@ -1,0 +1,17 @@
+services:
+  pdf_service:
+    build:
+      context: .
+      dockerfile: pdf_service/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      # OBRIGATÓRIO: Defina sua API_KEY antes de fazer deploy
+      - API_KEY=${API_KEY:?ERRO CRÍTICO - Defina a variável API_KEY no ambiente}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

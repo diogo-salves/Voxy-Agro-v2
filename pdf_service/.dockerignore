@@ -1,0 +1,21 @@
+# Ignorar arquivos e diretórios específicos do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+
+# Ignorar arquivos de configuração de ferramentas de desenvolvimento
+.vscode/
+.idea/
+
+# Ignorar arquivos do Git
+.git
+.gitignore
+.env
+
+# Ignorar arquivos de documentação e outros que não são necessários na imagem final
+voxy_prompt_melhorado.md
+README.md
