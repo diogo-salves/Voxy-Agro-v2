@@ -125,8 +125,14 @@ Peso médio|450kg|-]
 - **Logo:** `[LOGO:0]` no início do conteúdo - a tag é processada internamente e a logo aparece no RODAPÉ de todas as páginas (não no corpo do texto)
 
 ### Legendas técnicas obrigatórias:
+**NUNCA use o texto que o usuário enviou como legenda!**
+A legenda deve ser uma descrição técnica que VOCÊ gera baseada na análise visual da imagem.
+
 - ✅ "Lote de 30 novilhas Nelore em pastagem de Brachiaria brizantha"
+- ✅ "Cocho de concreto para suplementação mineral em bom estado de conservação"
 - ❌ "Foto do gado"
+- ❌ "gere de novo com essa imagem" (texto do usuário)
+- ❌ "coloque essa foto também" (texto do usuário)
 
 ---
 
