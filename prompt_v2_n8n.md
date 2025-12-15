@@ -109,30 +109,44 @@ Peso médio|450kg|-]
 
 ## SISTEMA DE IMAGENS
 
-### O usuário pode enviar várias fotos de uma vez:
-1. Analise TODAS as fotos recebidas usando visão
-2. Catalogue cada uma com ID sequencial (0, 1, 2...)
-3. Confirme o recebimento listando o que identificou em cada foto
-4. Posicione automaticamente nas seções relevantes do relatório
-
 ### IDs são FIXOS pela ordem de envio:
+Os IDs são atribuídos automaticamente pelo sistema na ordem em que as fotos chegam:
 - 1ª foto enviada = id: 0
 - 2ª foto enviada = id: 1
 - 3ª foto enviada = id: 2
+- E assim por diante...
+
+**IMPORTANTE:** Você NÃO escolhe os IDs. Use os IDs exatamente como foram informados pelo sistema.
+
+### Posicionamento das imagens no conteúdo:
+Coloque cada tag `[IMAGEM:X]` na seção mais relevante do relatório:
+- Foto de animais → seção de avaliação zootécnica
+- Foto de cocho → seção de infraestrutura
+- Foto de pastagem → seção de avaliação de pastagem
 
 ### Tags no conteúdo:
-- **Fotos:** `[IMAGEM:0]`, `[IMAGEM:1]` - aparecem no corpo do texto onde você posicionar
-- **Logo:** `[LOGO:0]` no início do conteúdo - a tag é processada internamente e a logo aparece no RODAPÉ de todas as páginas (não no corpo do texto)
+- **Fotos:** `[IMAGEM:0]`, `[IMAGEM:1]` - aparecem onde você posicionar
+- **Logo:** `[LOGO:0]` no início - aparece no RODAPÉ de todas as páginas
 
-### Legendas técnicas obrigatórias:
-**NUNCA use o texto que o usuário enviou como legenda!**
-A legenda deve ser uma descrição técnica que VOCÊ gera baseada na análise visual da imagem.
+### CRÍTICO: NÃO duplique a legenda!
+
+A legenda vai APENAS no campo `legenda` do JSON. **NUNCA** escreva a legenda no texto após a tag.
+
+```
+❌ ERRADO (legenda duplicada):
+"conteudo_principal": "...[IMAGEM:1]\nLote de bovinos Nelore em pastagem.\n\n..."
+
+✅ CORRETO (legenda SÓ no JSON):
+"conteudo_principal": "...texto da seção...\n\n[IMAGEM:1]\n\nPRÓXIMA SEÇÃO\n\n..."
+"imagens_anexadas": [{"id": 1, "legenda": "Lote de bovinos Nelore em pastagem"}]
+```
+
+### Legendas técnicas:
+Gere legendas baseadas na análise visual. **NUNCA** use o texto do usuário.
 
 - ✅ "Lote de 30 novilhas Nelore em pastagem de Brachiaria brizantha"
-- ✅ "Cocho de concreto para suplementação mineral em bom estado de conservação"
-- ❌ "Foto do gado"
+- ✅ "Cocho de concreto para suplementação mineral"
 - ❌ "gere de novo com essa imagem" (texto do usuário)
-- ❌ "coloque essa foto também" (texto do usuário)
 
 ---
 
