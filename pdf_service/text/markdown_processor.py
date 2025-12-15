@@ -4,42 +4,100 @@
 import re
 from .unicode_handler import corrigir_caracteres_especiais
 
+
+def _is_section_title(linha):
+    """
+    Detecta se uma linha é um título de seção em ALL CAPS.
+
+    Critérios:
+    - Mínimo 3 caracteres (letras)
+    - Todas as letras em maiúsculas
+    - Não termina com pontuação comum (. , : ;)
+    - Não começa com bullet (- • *)
+    - Não é uma sigla curta isolada (máx 5 letras sem espaço)
+    - Pode conter números, espaços e alguns caracteres especiais
+
+    Exemplos válidos:
+    - "INTRODUÇÃO"
+    - "AVALIAÇÃO NUTRICIONAL"
+    - "ANÁLISE DE SOLO"
+    - "RECOMENDAÇÕES"
+
+    Exemplos inválidos:
+    - "DNA" (sigla muito curta)
+    - "O lote está bem." (frase normal)
+    - "- ITEM" (começa com bullet)
+    """
+    if not linha or len(linha) < 3:
+        return False
+
+    # Não pode começar com bullets
+    if linha[0] in '-•*':
+        return False
+
+    # Não pode terminar com pontuação comum de frase
+    if linha[-1] in '.,;:!?':
+        return False
+
+    # Extrai apenas letras para análise
+    letras = re.findall(r'[a-zA-ZáéíóúàèìòùâêîôûãõäëïöüçÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÄËÏÖÜÇ]', linha)
+
+    if len(letras) < 3:
+        return False
+
+    # Todas as letras devem ser maiúsculas
+    texto_letras = ''.join(letras)
+    if texto_letras != texto_letras.upper():
+        return False
+
+    # Evita siglas muito curtas (5 letras ou menos sem espaço)
+    if ' ' not in linha and len(letras) <= 5:
+        return False
+
+    # Não pode ter mais de 60 caracteres (provavelmente é um parágrafo)
+    if len(linha) > 60:
+        return False
+
+    return True
+
+
 def converter_markdown_para_html(texto):
     """
     Converte texto Markdown para HTML compatível com ReportLab.
-    
+
     Suporta:
     - Títulos hierárquicos: 1), 1.1), 1.1.1)
     - Cabeçalhos Markdown: # ## ###
+    - Linhas ALL CAPS como títulos de seção (ex: INTRODUÇÃO, ANÁLISE)
     - Listas numeradas: 1. 2. 3.
     - Texto em negrito: **texto**
     - Texto em itálico: *texto*
     - Separadores horizontais: ---
     - Listas com marcadores: - ou •
-    
+
     Args:
         texto (str): Texto em formato Markdown
-        
+
     Returns:
         str: HTML compatível com ReportLab
     """
     if not texto:
         return ""
-    
+
     # Primeiro, corrige caracteres especiais
     texto = corrigir_caracteres_especiais(texto)
-    
+
     linhas = texto.split('\n')
     linhas_processadas = []
-    
+
     for linha in linhas:
         linha_limpa = linha.strip()
-        
+
         # Separadores horizontais: ---
         if re.match(r'^-{3,}$', linha_limpa):
             linhas_processadas.append('[SEPARADOR_HORIZONTAL]')
             continue
-        
+
         # Títulos hierárquicos: 1), 1.1), 1.1.1) etc
         match_titulo = re.match(r'^(\d+(?:\.\d+)*)\)\s+(.+)', linha_limpa)
         if match_titulo:
@@ -48,7 +106,7 @@ def converter_markdown_para_html(texto):
             nivel = numeracao.count('.') + 1
             linhas_processadas.append(f"[TITULO_NIVEL_{nivel}]{numeracao}) {conteudo}[/TITULO_NIVEL_{nivel}]")
             continue
-        
+
         # Listas numeradas: 1., 2., 3. etc (apenas números simples)
         match_lista = re.match(r'^(\d+)\.\s+(.+)', linha_limpa)
         if match_lista:
@@ -56,13 +114,20 @@ def converter_markdown_para_html(texto):
             conteudo = match_lista.group(2)
             linhas_processadas.append(f"[ITEM_LISTA]{numero}. {conteudo}[/ITEM_LISTA]")
             continue
-            
+
         # Cabeçalhos Markdown: # Título, ## Título
         elif re.match(r'^(#{1,6})\s+', linha_limpa):
             match = re.match(r'^(#{1,6})\s+(.+)', linha_limpa)
             nivel = len(match.group(1))
             conteudo = match.group(2)
             linhas_processadas.append(f"[TITULO_NIVEL_{nivel}]{conteudo}[/TITULO_NIVEL_{nivel}]")
+
+        # NOVO: Detecta linhas ALL CAPS como títulos de seção (nível 2)
+        # Exemplos: "INTRODUÇÃO", "AVALIAÇÃO NUTRICIONAL", "RECOMENDAÇÕES"
+        # Critérios: 3+ caracteres, ALL CAPS, sem pontuação no final, não começa com bullet
+        elif _is_section_title(linha_limpa):
+            linhas_processadas.append(f"[TITULO_NIVEL_2]{linha_limpa}[/TITULO_NIVEL_2]")
+
         else:
             linhas_processadas.append(linha)
 

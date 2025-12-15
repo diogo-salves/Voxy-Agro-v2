@@ -716,50 +716,59 @@ def parse_conteudo(texto, estilos, cores, total_width, imagens_disponiveis):
                         estilo_nome = f'TituloNivel{nivel}'
                         if estilo_nome not in estilos:
                             if nivel == 1:
+                                # Título principal - grande e destacado
                                 estilos[estilo_nome] = ParagraphStyle(
-                                    estilo_nome, 
-                                    fontName=fonte_bold, 
-                                    fontSize=16, 
+                                    estilo_nome,
+                                    fontName=fonte_bold,
+                                    fontSize=18,
                                     textColor=colors.HexColor(cores['principal']),
-                                    spaceAfter=18, 
-                                    spaceBefore=24,
-                                    leading=20,
-                                    leftIndent=0
+                                    spaceAfter=16,
+                                    spaceBefore=28,
+                                    leading=22,
+                                    leftIndent=0,
+                                    borderPadding=0,
                                 )
                             elif nivel == 2:
+                                # Título de seção - destaque forte com borda lateral
                                 estilos[estilo_nome] = ParagraphStyle(
-                                    estilo_nome, 
-                                    fontName=fonte_bold, 
-                                    fontSize=14, 
+                                    estilo_nome,
+                                    fontName=fonte_bold,
+                                    fontSize=14,
                                     textColor=colors.HexColor(cores['principal']),
-                                    spaceAfter=14, 
-                                    spaceBefore=18,
+                                    spaceAfter=12,
+                                    spaceBefore=22,
                                     leading=18,
-                                    leftIndent=20  # Indentação para mostrar hierarquia
+                                    leftIndent=0,
+                                    borderLeftWidth=3,
+                                    borderLeftColor=colors.HexColor(cores['destaque']),
+                                    borderPadding=(8, 0, 8, 12),  # top, right, bottom, left
+                                    backColor=colors.HexColor('#F8F9FA'),  # Fundo sutil
                                 )
                             elif nivel == 3:
+                                # Subtítulo - menor mas ainda destacado
                                 estilos[estilo_nome] = ParagraphStyle(
-                                    estilo_nome, 
-                                    fontName=fonte_bold, 
-                                    fontSize=12, 
-                                    textColor=colors.HexColor(cores['secundaria']),
-                                    spaceAfter=10, 
-                                    spaceBefore=14,
+                                    estilo_nome,
+                                    fontName=fonte_bold,
+                                    fontSize=12,
+                                    textColor=colors.HexColor(cores['principal']),
+                                    spaceAfter=10,
+                                    spaceBefore=16,
                                     leading=16,
-                                    leftIndent=40  # Mais indentação
+                                    leftIndent=8,
                                 )
                             else:
+                                # Níveis menores
                                 estilos[estilo_nome] = ParagraphStyle(
-                                    estilo_nome, 
-                                    fontName=fonte_bold, 
-                                    fontSize=11, 
+                                    estilo_nome,
+                                    fontName=fonte_bold,
+                                    fontSize=11,
                                     textColor=colors.HexColor(cores['secundaria']),
-                                    spaceAfter=8, 
-                                    spaceBefore=10,
+                                    spaceAfter=8,
+                                    spaceBefore=12,
                                     leading=14,
-                                    leftIndent=60  # Máxima indentação
+                                    leftIndent=16,
                                 )
-                        
+
                         titulo_limpo = match.strip()
                         elementos.append(Paragraph(f'<b>{titulo_limpo}</b>', estilos[estilo_nome]))
                         bloco_html = re.sub(padrao_titulo, '', bloco_html)
