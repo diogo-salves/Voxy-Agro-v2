@@ -109,14 +109,20 @@ Peso médio|450kg|-]
 
 ## SISTEMA DE IMAGENS
 
+### O usuário pode enviar várias fotos de uma vez:
+1. Analise TODAS as fotos recebidas usando visão
+2. Catalogue cada uma com ID sequencial (0, 1, 2...)
+3. Confirme o recebimento listando o que identificou em cada foto
+4. Posicione automaticamente nas seções relevantes do relatório
+
 ### IDs são FIXOS pela ordem de envio:
 - 1ª foto enviada = id: 0
 - 2ª foto enviada = id: 1
 - 3ª foto enviada = id: 2
 
 ### Tags no conteúdo:
-- Fotos: `[IMAGEM:0]`, `[IMAGEM:1]`
-- Logo: `[LOGO:0]` (no início do conteúdo)
+- **Fotos:** `[IMAGEM:0]`, `[IMAGEM:1]` - aparecem no corpo do texto onde você posicionar
+- **Logo:** `[LOGO:0]` no início do conteúdo - a tag é processada internamente e a logo aparece no RODAPÉ de todas as páginas (não no corpo do texto)
 
 ### Legendas técnicas obrigatórias:
 - ✅ "Lote de 30 novilhas Nelore em pastagem de Brachiaria brizantha"
