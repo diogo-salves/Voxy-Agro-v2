@@ -44,7 +44,7 @@ REQUEST_TIMEOUT=30
 PDF_GENERATION_TIMEOUT=60
 ```
 
-> **IMPORTANTE:** Use uma API_KEY forte! Exemplo: `voxy_prod_2024_x7k9m2`
+> **IMPORTANTE:** Use uma API_KEY forte e aleatória (mínimo 32 caracteres)
 
 ### 5. Configurar Porta
 

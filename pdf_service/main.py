@@ -70,7 +70,11 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 # que consomem sua API, ex: ["https://seusite.com"]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permite todas as origens para desenvolvimento/teste
+    allow_origins=[
+        "https://voxyagro.com",  # Domínio principal
+        "https://www.voxyagro.com",  # Com www
+        "https://voxy-agro-landing-page.vercel.app",  # Landing page Vercel
+    ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
@@ -139,7 +143,7 @@ def verify_api_key(credentials: HTTPAuthorizationCredentials = Security(auth_sch
         )
     
     if credentials.credentials != API_KEY:
-        logging.warning(f"Tentativa de acesso com API Key inválida: {credentials.credentials[:8]}...")
+        logging.warning("Tentativa de acesso com API Key inválida")
         raise HTTPException(
             status_code=403,
             detail="Chave de API inválida. Verifique suas credenciais."
