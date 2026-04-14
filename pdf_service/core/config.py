@@ -7,7 +7,7 @@
 
 # Limites de segurança para imagens
 MAX_IMAGE_SIZE_MB = 5  # Máximo 5MB por imagem
-MAX_IMAGE_COUNT = 20   # Máximo 20 imagens por documento
+MAX_IMAGE_COUNT = 30   # Máximo 30 imagens por documento (alinhado com voxy_v3 app.py:MAX_IMAGES_PER_REPORT)
 MAX_DECODE_SIZE_MB = 50  # Máximo 50MB total de dados decodificados
 IMAGE_PROCESSING_TIMEOUT = 30  # Timeout de 30 segundos por imagem
 
